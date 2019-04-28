@@ -21,12 +21,32 @@ public class LinkedList<Element> implements Iterable<Element> {
         return length;
     }
 
-    public void clear() {
+    public Element tail() {
+        return tailNode != null ? tailNode.element : null;
+    }
 
+    public Element head() {
+        return headNode != null ? headNode.element : null;
+    }
+
+    public void clear() {
+        Node<Element> currentNode = headNode;
+        headNode = null;
+        tailNode = null;
+        while (currentNode != null) {
+            currentNode = currentNode.nextNode;
+        }
     }
 
     public void insertHead(Element element) {
-
+        length += 1;
+        Node<Element> newNode = new Node<Element>(element, null, headNode);
+        if (headNode == null || tailNode == null) {
+            headNode = tailNode = newNode;
+        } else {
+            headNode.previousNode = newNode;
+            headNode = newNode;
+        }
     }
 
     public void removeHead() {
@@ -34,7 +54,14 @@ public class LinkedList<Element> implements Iterable<Element> {
     }
 
     public void insertTail(Element element) {
-
+        length += 1;
+        Node<Element> newNode = new Node<Element>(element, tailNode, null);
+        if (headNode == null || tailNode == null) {
+            headNode = tailNode = newNode;
+        } else {
+            tailNode.nextNode = newNode;
+            tailNode = newNode;
+        }
     }
 
     public void removeTail() {
@@ -47,10 +74,10 @@ public class LinkedList<Element> implements Iterable<Element> {
         Node<T> nextNode;
         Node<T> previousNode;
 
-        Node(T element, Node<T> nextNode, Node<T> previousNode) {
+        Node(T element, Node<T> previousNode, Node<T> nextNode) {
             this.element = element;
-            this.nextNode = nextNode;
             this.previousNode = previousNode;
+            this.nextNode = nextNode;
         }
     }
 

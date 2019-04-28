@@ -1,10 +1,9 @@
 package vn.bachld;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class LinkedListTest {
 
@@ -23,11 +22,27 @@ public class LinkedListTest {
 
     @Test
     public void testInsertAtTail() {
-
+        list.insertTail(0);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(Integer.valueOf(0), list.tail());
+        list.insertTail(1);
+        Assert.assertEquals(2, list.size());
+        Assert.assertEquals(Integer.valueOf(1), list.tail());
+        list.insertTail(2);
+        Assert.assertEquals(3, list.size());
+        Assert.assertEquals(Integer.valueOf(2), list.tail());
     }
 
     @Test
     public void testInsertAtHead() {
-
+        list.insertHead(0);
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(Integer.valueOf(0), list.head());
+        list.insertHead(1);
+        Assert.assertEquals(2, list.size());
+        Assert.assertEquals(Integer.valueOf(1), list.head());
+        list.insertHead(2);
+        Assert.assertEquals(3, list.size());
+        Assert.assertEquals(Integer.valueOf(2), list.head());
     }
 }
