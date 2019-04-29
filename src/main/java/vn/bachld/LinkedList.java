@@ -50,7 +50,13 @@ public class LinkedList<Element> implements Iterable<Element> {
     }
 
     public void removeHead() {
-
+        if (headNode != null && headNode.nextNode != null) {
+            headNode = headNode.nextNode;
+            headNode.previousNode = null;
+        } else {
+            headNode = tailNode = null;
+        }
+        length = Math.max(0, length - 1);
     }
 
     public void insertTail(Element element) {
@@ -65,9 +71,54 @@ public class LinkedList<Element> implements Iterable<Element> {
     }
 
     public void removeTail() {
+        if (tailNode != null && tailNode.previousNode != null) {
+            tailNode = tailNode.previousNode;
+            tailNode.nextNode = null;
+        } else {
+            headNode = tailNode = null;
+        }
 
+        length = Math.max(0, length - 1);
     }
 
+    public boolean contains(Element element) {
+        Node<Element> currentNode = headNode;
+        while (currentNode != null) {
+            if (currentNode.element == element) {
+                return true;
+            }
+            currentNode = currentNode.nextNode;
+        }
+        return false;
+    }
+
+    public int removeAllMatchedElement(Element element) {
+        return 0;
+    }
+
+    public boolean removeElement(Element element) {
+        Node<Element> currentNode = headNode;
+        while (currentNode != null) {
+            if (currentNode.element == element) {
+                this.removeNode(currentNode);
+                return true;
+            }
+            currentNode = currentNode.nextNode;
+        }
+        return false;
+    }
+
+    private void removeNode(Node<Element> node) {
+        if (node == headNode) {
+            removeHead();
+        } else if (node == tailNode) {
+            removeTail();
+        } else {
+            node.previousNode.nextNode = node.nextNode;
+            node.nextNode.previousNode = node.previousNode;
+            length -= 1;
+        }
+    }
 
     class Node<T> {
         T element;
@@ -95,5 +146,22 @@ public class LinkedList<Element> implements Iterable<Element> {
                 return;
             }
         };
+    }
+
+    @Override
+    public String toString() {
+        if (length == 0) {
+            return "[]";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        Node<Element> currentNode = headNode;
+        while (currentNode != tailNode) {
+            sb.append(currentNode.element);
+            sb.append(", ");
+        }
+        sb.append(currentNode.element);
+        sb.append("]");
+        return sb.toString();
     }
 }
