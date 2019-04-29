@@ -1,8 +1,6 @@
 package vn.bachld;
 
-import java.util.Iterator;
-
-public class LinkedList<Element> implements Iterable<Element> {
+public class LinkedList<Element> {
 
     private int length = 0;
     private Node<Element> headNode;
@@ -39,14 +37,14 @@ public class LinkedList<Element> implements Iterable<Element> {
     }
 
     public void insertHead(Element element) {
-        length += 1;
         Node<Element> newNode = new Node<Element>(element, null, headNode);
-        if (headNode == null || tailNode == null) {
+        if (isEmpty()) {
             headNode = tailNode = newNode;
         } else {
             headNode.previousNode = newNode;
             headNode = newNode;
         }
+        length += 1;
     }
 
     public void removeHead() {
@@ -60,25 +58,24 @@ public class LinkedList<Element> implements Iterable<Element> {
     }
 
     public void insertTail(Element element) {
-        length += 1;
         Node<Element> newNode = new Node<Element>(element, tailNode, null);
-        if (headNode == null || tailNode == null) {
+        if (isEmpty()) {
             headNode = tailNode = newNode;
         } else {
-            tailNode.nextNode = newNode;
-            tailNode = newNode;
+            tailNode = tailNode.nextNode = newNode;
         }
+        length += 1;
     }
 
     public void removeTail() {
-        if (tailNode != null && tailNode.previousNode != null) {
-            tailNode = tailNode.previousNode;
-            tailNode.nextNode = null;
+        if (isEmpty()) { return; }
+        tailNode = tailNode.previousNode;
+        length -= 1;
+        if (isEmpty()) {
+            headNode = null;
         } else {
-            headNode = tailNode = null;
+            tailNode.nextNode = null;
         }
-
-        length = Math.max(0, length - 1);
     }
 
     public boolean contains(Element element) {
@@ -93,7 +90,17 @@ public class LinkedList<Element> implements Iterable<Element> {
     }
 
     public int removeAllMatchedElement(Element element) {
-        return 0;
+        int matchCount = 0;
+        Node<Element> currentNode = headNode;
+        while (currentNode != null) {
+            if (currentNode.element == element) {
+                Node<Element> nextNode = currentNode.nextNode;
+                removeNode(currentNode);
+                matchCount += 1;
+                currentNode = nextNode;
+            }
+        }
+        return matchCount;
     }
 
     public boolean removeElement(Element element) {
@@ -132,22 +139,6 @@ public class LinkedList<Element> implements Iterable<Element> {
         }
     }
 
-    public Iterator<Element> iterator() {
-        return new Iterator<Element>() {
-            public boolean hasNext() {
-                return false;
-            }
-
-            public Element next() {
-                return null;
-            }
-
-            public void remove() {
-                return;
-            }
-        };
-    }
-
     @Override
     public String toString() {
         if (length == 0) {
@@ -159,6 +150,7 @@ public class LinkedList<Element> implements Iterable<Element> {
         while (currentNode != tailNode) {
             sb.append(currentNode.element);
             sb.append(", ");
+            currentNode = currentNode.nextNode;
         }
         sb.append(currentNode.element);
         sb.append("]");
