@@ -5,20 +5,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+public class StackTest {
 
-public class StackUsingListTest {
-
-    private StackUsingList<Integer> stack;
+    private Stack<Integer> stack;
 
     @Before
     public void before() {
-        stack = new StackUsingList<Integer>();
+        stack = new Stack<Integer>();
     }
 
     @After
     public void after() {
         stack.clear();
+        stack = null;
     }
 
     @Test
@@ -81,5 +80,53 @@ public class StackUsingListTest {
         Assert.assertFalse(stack.contains(2));
         Assert.assertFalse(stack.contains(3));
         Assert.assertFalse(stack.contains(4));
+    }
+
+    @Test
+    public void testClearDoesNotBreakStack() {
+        Assert.assertTrue(stack.isEmpty());
+        stack.push(0);
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
+        Assert.assertEquals(5, stack.size());
+        stack.clear();
+        Assert.assertTrue(stack.isEmpty());
+        stack.push(0);
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
+        Assert.assertEquals(5, stack.size());
+        Assert.assertEquals("[4, 3, 2, 1, 0]", stack.toString());
+    }
+
+    @Test
+    public void testToString() {
+        Assert.assertTrue(stack.isEmpty());
+        Assert.assertEquals("[]", stack.toString());
+        stack.push(0);
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
+        Assert.assertEquals("[4, 3, 2, 1, 0]", stack.toString());
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testPopWhenStackEmpty() {
+        stack.pop();
+    }
+
+
+    @Test (expected = IllegalStateException.class)
+    public void testSearchWhenStackIsEmpty() {
+        stack.contains(0);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testPeekWhenStackIsEmpty() {
+        stack.peek();
     }
 }
