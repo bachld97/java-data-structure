@@ -22,16 +22,16 @@ public class Queue<Element> {
         queueInternal = null;
     }
 
-    public void push(Element element) {
+    public void enqueue(Element element) {
         if (queueInternal == null) {
             queueInternal = new LinkedList<Element>();
         }
         queueInternal.insertTail(element);
     }
 
-    public Element pop() {
+    public Element dequeue() {
         if (isEmpty()) {
-            throw new IllegalStateException("Cannot pop when queue is empty.");
+            throw new IllegalStateException("Cannot dequeue when queue is empty.");
         }
 
         Element e = queueInternal.head();
