@@ -1,5 +1,6 @@
 package vn.bachld;
 
+
 import java.util.Iterator;
 
 @SuppressWarnings("unchecked")
@@ -129,6 +130,23 @@ public class DynamicArray<Element> implements Iterable<Element>  {
                 throw new UnsupportedOperationException();
             }
         };
+    }
+
+    public void swapAtIndices(int index1, int index2) {
+        if (index1 < 0 || index2 < 0 || index1 >= length || index2 >= length) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Array length: ");
+            sb.append(length);
+            sb.append(" - Requested indices: ");
+            sb.append(index1);
+            sb.append(" and ");
+            sb.append(index2);
+            throw new ArrayIndexOutOfBoundsException(sb.toString());
+        }
+
+        Element tem = elements[index1];
+        elements[index1] = elements[index2];
+        elements[index2] = tem;
     }
 
     @Override

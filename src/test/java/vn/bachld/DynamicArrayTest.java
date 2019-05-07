@@ -283,4 +283,46 @@ public class DynamicArrayTest {
         Iterator<Integer> it = dynamicArray.iterator();
         it.remove();
     }
+
+    @Test (expected = ArrayIndexOutOfBoundsException.class)
+    public void testNegativeFirstSwapIndices() {
+        Assert.assertTrue(dynamicArray.isEmpty());
+        dynamicArray.insert(0);
+        dynamicArray.insert(1);
+        dynamicArray.swapAtIndices(-1, 0);
+    }
+
+    @Test (expected = ArrayIndexOutOfBoundsException.class)
+    public void testOutOfBoundFirstSwapIndices() {
+        Assert.assertTrue(dynamicArray.isEmpty());
+        dynamicArray.insert(0);
+        dynamicArray.insert(1);
+        dynamicArray.swapAtIndices(2, 0);
+    }
+
+    @Test (expected = ArrayIndexOutOfBoundsException.class)
+    public void testNegativeSecondSwapIndices() {
+        Assert.assertTrue(dynamicArray.isEmpty());
+        dynamicArray.insert(0);
+        dynamicArray.insert(1);
+        dynamicArray.swapAtIndices(0, -1);
+    }
+
+    @Test (expected = ArrayIndexOutOfBoundsException.class)
+    public void testOutOfBoundSecondSwapIndices() {
+        Assert.assertTrue(dynamicArray.isEmpty());
+        dynamicArray.insert(0);
+        dynamicArray.insert(1);
+        dynamicArray.swapAtIndices(0, 2);
+    }
+
+    @Test
+    public void testSwapSuccessfullyAtIndices() {
+        Assert.assertTrue(dynamicArray.isEmpty());
+        dynamicArray.insert(0);
+        dynamicArray.insert(1);
+        dynamicArray.swapAtIndices(0, 1);
+        Assert.assertEquals(Integer.valueOf(1), dynamicArray.get(0));
+        Assert.assertEquals(Integer.valueOf(0), dynamicArray.get(1));
+    }
 }
